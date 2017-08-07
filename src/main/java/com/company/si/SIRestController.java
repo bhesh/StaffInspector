@@ -33,10 +33,10 @@ public class SIRestController {
 	 * interface. This repository is used to interact with the MongoDB database.
 	 */
 	@Autowired
-	private SIRepository repo;
+	private StaffRepository staffRepo;
 
 	@Autowired
-	private EmployeeIndexRepository eiRepo;
+	private StaffIndexRepository eiRepo;
 
 	/**
 	 * createNewEmployee()
@@ -59,12 +59,12 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> createNewEmployee(@RequestBody Employee input) {
-		EmployeeIndex ei = eiRepo.findOne(EmployeeIndex.EMPLOYEE_INDEX_ID);
+		StaffIndex ei = eiRepo.findOne(StaffIndex.EMPLOYEE_INDEX_ID);
 		if (ei == null)
-			ei = new EmployeeIndex(EmployeeIndex.EMPLOYEE_INDEX_ID, 0);
+			ei = new StaffIndex(StaffIndex.EMPLOYEE_INDEX_ID, 0);
 		input.setEmployeeId(ei.getNextIndex());
 		eiRepo.save(ei);
-		Employee employee = repo.save(input);
+		Employee employee = staffRepo.save(input);
 		return ResponseEntity.ok(employee);
 	}
 
@@ -91,7 +91,7 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/{employeeId}")
 	public ResponseEntity<?> updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee input) {
-		Employee employee = repo.findOne(employeeId);
+		Employee employee = staffRepo.findOne(employeeId);
 		if (employee == null)
 			throw new EmployeeNotFoundException();
 		if (input.getAddress() != null)
@@ -110,7 +110,7 @@ public class SIRestController {
 			employee.setPhone(input.getPhone());
 		if (input.getPosition() != null)
 			employee.setPosition(input.getPosition());
-		employee = repo.save(employee);
+		employee = staffRepo.save(employee);
 		return ResponseEntity.ok(employee);
 	}
 
@@ -131,7 +131,7 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> getAllEmployees() {
-		List<Employee> employees = repo.findAll();
+		List<Employee> employees = staffRepo.findAll();
 		return ResponseEntity.ok(employees);
 	}
 
@@ -152,7 +152,7 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{employeeId}")
 	public ResponseEntity<?> getEmployee(@PathVariable Integer employeeId) {
-		Employee employee = repo.findOne(employeeId);
+		Employee employee = staffRepo.findOne(employeeId);
 		if (employee == null)
 			throw new EmployeeNotFoundException();
 		return ResponseEntity.ok(employee);
@@ -175,10 +175,10 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{employeeId}")
 	public ResponseEntity<?> deleteEmployee(@PathVariable Integer employeeId) {
-		Employee employee = repo.findOne(employeeId);
+		Employee employee = staffRepo.findOne(employeeId);
 		if (employee == null)
 			throw new EmployeeNotFoundException();
-		repo.delete(employee);
+		staffRepo.delete(employee);
 		return ResponseEntity.ok(employee);
 	}
 

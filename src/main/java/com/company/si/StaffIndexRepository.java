@@ -3,9 +3,9 @@ package com.company.si;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * SIRepository Interface
+ * Staff Index Repository Interface
  * 
- * Basically just a typedef of a MongoRepository<Employee, Integer>. Spring did
+ * Basically just a typedef of a MongoRepository<StaffIndex, Integer>. Spring did
  * not like using MongoRepository<> directly.
  * 
  * Spring was also having trouble finding it as a nested class. This was the
@@ -16,6 +16,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author Brian Hession
  *
  */
-public interface SIRepository extends MongoRepository<Employee, Integer> {
+public interface StaffIndexRepository extends MongoRepository<StaffIndex, Integer> {
 
 }

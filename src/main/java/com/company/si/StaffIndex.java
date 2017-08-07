@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * EmployeeIndex
+ * StaffIndex
  * 
  * MongoDB does not have a clean way to auto-increment IDs. So this collection's
  * sole purpose is to keep track of what the last assigned employee ID was.
@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  */
 @Document(collection = "staffindex")
-public class EmployeeIndex {
+public class StaffIndex {
 
 	public static final int EMPLOYEE_INDEX_ID = 1;
 
@@ -21,7 +21,7 @@ public class EmployeeIndex {
 	private int id;
 	private int currentIndex;
 
-	public EmployeeIndex(int id, int currentIndex) {
+	public StaffIndex(int id, int currentIndex) {
 		this.id = id;
 		this.currentIndex = currentIndex;
 	}

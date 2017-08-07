@@ -3,7 +3,7 @@ package com.company.si;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * EmployeeIndex Interface
+ * Staff Repository Interface
  * 
  * Basically just a typedef of a MongoRepository<Employee, Integer>. Spring did
  * not like using MongoRepository<> directly.
@@ -16,6 +16,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author Brian Hession
  *
  */
-public interface EmployeeIndexRepository extends MongoRepository<EmployeeIndex, Integer> {
+public interface StaffRepository extends MongoRepository<Employee, Integer> {
 
 }
