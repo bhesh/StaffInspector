@@ -64,7 +64,14 @@
 		<dependency>
 			<groupId>com.lordofthejars</groupId>
 			<artifactId>nosqlunit-mongodb</artifactId>
-			<version>1.0.0-rc.5</version>
+			<version>0.13.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.4.3</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

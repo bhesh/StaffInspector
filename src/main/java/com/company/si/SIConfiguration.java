@@ -33,7 +33,7 @@ public class SIConfiguration {
 	private static String user = "staffAdmin";
 
 	@Bean
-	public MongoClient getSIMongoClient() throws UnknownHostException {
+	public MongoClient mongo() throws UnknownHostException {
 		ServerAddress server = new ServerAddress(hostname, port);
 		MongoCredential creds = MongoCredential.createCredential(user, database, "password".toCharArray());
 		return new MongoClient(server, Arrays.asList(creds));
@@ -41,7 +41,7 @@ public class SIConfiguration {
 
 	@Bean
 	public MongoTemplate mongoTemplate() throws UnknownHostException {
-		MongoTemplate template = new MongoTemplate(getSIMongoClient(), database);
+		MongoTemplate template = new MongoTemplate(mongo(), database);
 
 		// Waits for acknowledgement when a write error/concern occurs
 		template.setWriteConcern(WriteConcern.ACKNOWLEDGED);

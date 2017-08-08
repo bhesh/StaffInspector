@@ -1,6 +1,5 @@
 package com.company.si;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +32,7 @@ public class SIRestController {
 	 * interface. This repository is used to interact with the MongoDB database.
 	 */
 	@Autowired
-	private StaffRepository staffRepo;
-
-	@Autowired
-	private StaffIndexRepository eiRepo;
+	private SIService service;
 
 	/**
 	 * createNewEmployee()
@@ -49,22 +45,17 @@ public class SIRestController {
 	 * specified, it will be ignored as the employee ID is calculated as part of
 	 * this function.
 	 * 
-	 * On success, it will respond with the newly created Employee object in a JSON
-	 * format.
+	 * On success, it will respond with the newly created Employee object in a
+	 * JSON format.
 	 * 
 	 * @param input
 	 *            the employee fields to use during creation
-	 * @return status 200 as well as the created employee on success. 5xx on server
-	 *         error.
+	 * @return status 200 as well as the created employee on success. 5xx on
+	 *         server error.
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> createNewEmployee(@RequestBody Employee input) {
-		StaffIndex ei = eiRepo.findOne(StaffIndex.EMPLOYEE_INDEX_ID);
-		if (ei == null)
-			ei = new StaffIndex(StaffIndex.EMPLOYEE_INDEX_ID, 0);
-		input.setEmployeeId(ei.getNextIndex());
-		eiRepo.save(ei);
-		Employee employee = staffRepo.save(input);
+		Employee employee = service.createNewEmployee(input);
 		return ResponseEntity.ok(employee);
 	}
 
@@ -78,9 +69,9 @@ public class SIRestController {
 	 * Consumes a JSON object of the desired Employee fields to update. The _id
 	 * field is ignored in the supplied JSON.
 	 * 
-	 * On success, it will respond with the newly updated Employee object in a JSON
-	 * format. A 404 status code will be returned if the employee does not exist in
-	 * the database.
+	 * On success, it will respond with the newly updated Employee object in a
+	 * JSON format. A 404 status code will be returned if the employee does not
+	 * exist in the database.
 	 * 
 	 * @param employeeId
 	 *            the employee ID to update
@@ -91,26 +82,7 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/{employeeId}")
 	public ResponseEntity<?> updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee input) {
-		Employee employee = staffRepo.findOne(employeeId);
-		if (employee == null)
-			throw new EmployeeNotFoundException();
-		if (input.getAddress() != null)
-			employee.setAddress(input.getAddress().clone());
-		if (input.getDateHired() != null)
-			employee.setDateHired(new Date(input.getDateHired().getTime()));
-		if (input.getEmail() != null)
-			employee.setEmail(input.getEmail());
-		if (input.getFirstname() != null)
-			employee.setFirstname(input.getFirstname());
-		if (input.getLastname() != null)
-			employee.setLastname(input.getLastname());
-		if (input.getMiddleinitial() != null)
-			employee.setMiddleinitial(input.getMiddleinitial());
-		if (input.getPhone() != null)
-			employee.setPhone(input.getPhone());
-		if (input.getPosition() != null)
-			employee.setPosition(input.getPosition());
-		employee = staffRepo.save(employee);
+		Employee employee = service.updateEmployee(employeeId, input);
 		return ResponseEntity.ok(employee);
 	}
 
@@ -131,7 +103,7 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> getAllEmployees() {
-		List<Employee> employees = staffRepo.findAll();
+		List<Employee> employees = service.getAllEmployees();
 		return ResponseEntity.ok(employees);
 	}
 
@@ -147,12 +119,12 @@ public class SIRestController {
 	 * 
 	 * @param employeeId
 	 *            the employee ID to look up
-	 * @return status 200 as well as the retrieved employee on success. 404 if the
-	 *         employee is not found. 5xx on server error.
+	 * @return status 200 as well as the retrieved employee on success. 404 if
+	 *         the employee is not found. 5xx on server error.
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{employeeId}")
 	public ResponseEntity<?> getEmployee(@PathVariable Integer employeeId) {
-		Employee employee = staffRepo.findOne(employeeId);
+		Employee employee = service.getEmployee(employeeId);
 		if (employee == null)
 			throw new EmployeeNotFoundException();
 		return ResponseEntity.ok(employee);
@@ -175,16 +147,15 @@ public class SIRestController {
 	 */
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{employeeId}")
 	public ResponseEntity<?> deleteEmployee(@PathVariable Integer employeeId) {
-		Employee employee = staffRepo.findOne(employeeId);
+		Employee employee = service.deleteEmployee(employeeId);
 		if (employee == null)
 			throw new EmployeeNotFoundException();
-		staffRepo.delete(employee);
 		return ResponseEntity.ok(employee);
 	}
 
 	/**
-	 * Defines an exception to throw when an Employee with the specified ID does not
-	 * exist. SIErrorController will create the appropriate response.
+	 * Defines an exception to throw when an Employee with the specified ID does
+	 * not exist. SIErrorController will create the appropriate response.
 	 * 
 	 * @author Brian Hession
 	 *
