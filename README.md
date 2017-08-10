@@ -185,6 +185,20 @@ with the deleted employee in JSON format. If an invalid employeeId
 is supplied, a status 404 code will be returned along with the error 
 message in a JSON format.
 
+##### Mass Import
+
+There is also a mass import option to import many Employees at once. 
+To mass import employees, an HTTP POST request must be sent to:
+
+	http://www.example.com/staff/import
+
+Where www.example.com is replaced with your hostname. JSON formatted 
+content must be sent with the POST request. The content is a JSON 
+array of many Employee objects.
+
+Upon a successful import, a status 200 code will be returned along 
+with the list of employees that have been imported in a JSON format.
+
 ### Credits
 
 Source code written by Brian Hession
