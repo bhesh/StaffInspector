@@ -108,9 +108,9 @@ the database.
 
 The second method is to send an HTTP GET request to:
 
-	http://www.example.com/staff/<employeeId>
+	http://www.example.com/staff/employeeId
 
-Where www.example.com is replaced with your hostname and <employeeId> 
+Where www.example.com is replaced with your hostname and employeeId 
 is replaced with the employee ID you wish to retrieve.
 
 This request will return a single employee in JSON format.
@@ -124,9 +124,9 @@ message in a JSON format.
 
 To create an employee, an HTTP PUT request must be sent to:
 
-	http://www.example.com/staff/<employeeId>
+	http://www.example.com/staff/employeeId
 
-Where www.example.com is replaced with your hostname and <employeeId> 
+Where www.example.com is replaced with your hostname and employeeId 
 is replaced with the employee ID you wish to update. JSON formatted 
 content must be sent with the PUT request. A content body is always 
 required for PUT requests. The application can only consume JSON so 
@@ -145,9 +145,9 @@ message in a JSON format.
 
 To delete an employee, an HTTP DELETE request must be sent to:
 
-	http://www.example.com/staff/<employeeId>
+	http://www.example.com/staff/employeeId
 
-Where www.example.com is replaced with your hostname and <employeeId> 
+Where www.example.com is replaced with your hostname and employeeId 
 is replaced with the employee ID you wish to update. No content 
 should be sent with the DELETE request.
 
