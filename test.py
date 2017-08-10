@@ -12,7 +12,7 @@ PING_HOSTNAME = 'localhost'
 PING_PORT = 8080
 
 # SESSION COMMANDS
-NEW = 'new'
+CREATE = 'create'
 UPDATE = 'update'
 GETALL = 'getall'
 GET = 'get'
@@ -22,7 +22,7 @@ def send_request(method, uri, body=None):
 	"""Sends a request to the REST server"""
 	headers = {}
 	if body:
-		headers['Content-Type'] = 'application/json'
+		headers['Content-Type'] = 'application/json; charset=utf-8'
 	con = httplib.HTTPConnection(PING_HOSTNAME, PING_PORT)
 	con.request(method, uri, body, headers)
 	res = con.getresponse()
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 	# Parse the command
 	command = sys.argv[1]
 	status, reason, res = None, None, None
-	if (command == NEW):
+	if (command == CREATE):
 		status, reason, res = new_employee(sys.argv[2])
 	elif (command == UPDATE):
 		status, reason, res = update_employee(sys.argv[2], sys.argv[3])

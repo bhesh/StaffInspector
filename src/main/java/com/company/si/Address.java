@@ -95,4 +95,35 @@ public class Address {
 				.append("]");
 		return sb.toString();
 	}
+
+	private boolean checkNulls(Address other) {
+		if (this.getAddress1() == null || other.getAddress1() == null)
+			if (this.getAddress1() != other.getAddress1())
+				return false;
+		if (this.getAddress2() == null || other.getAddress2() == null)
+			if (this.getAddress2() != other.getAddress2())
+				return false;
+		if (this.getCity() == null || other.getCity() == null)
+			if (this.getCity() != other.getCity())
+				return false;
+		if (this.getState() == null || other.getState() == null)
+			if (this.getState() != other.getState())
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Address) {
+			Address other = (Address) obj;
+			if (!this.checkNulls(other))
+				return false;
+			return (this.getAddress1() == null || this.getAddress1().equals(other.getAddress1()))
+					&& (this.getAddress2() == null || this.getAddress2().equals(other.getAddress2()))
+					&& (this.getCity() == null || this.getCity().equals(other.getCity()))
+					&& (this.getState() == null || this.getState().equals(other.getState()))
+					&& this.getZipcode() == other.getZipcode();
+		}
+		return false;
+	}
 }

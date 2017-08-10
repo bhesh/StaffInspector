@@ -11,10 +11,18 @@ import com.company.si.StaffRepository;
 import com.github.fakemongo.Fongo;
 import com.mongodb.MongoClient;
 
+/**
+ * Overrides SIConfiguration. Sets the database to a FongoDB instance. FongoDB
+ * replicates most of MongoDB functionality but is entirely in-memory. Not
+ * network calls should be made.
+ * 
+ * @author Brian Hession
+ *
+ */
 @Configuration
 @EnableMongoRepositories(basePackageClasses = { StaffRepository.class, StaffIndexRepository.class })
 @ComponentScan(basePackages = { "com.company.si" })
-public class FongoConfiguration extends AbstractMongoConfiguration {
+public class FongoDBConfiguration extends AbstractMongoConfiguration {
 
 	@Override
 	protected String getDatabaseName() {

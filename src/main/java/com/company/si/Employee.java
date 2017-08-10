@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Employee
  * 
@@ -28,7 +30,9 @@ public class Employee {
 	private String phone;
 	private String position;
 	private Address address;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateHired;
+	private Boolean active;
 
 	public Employee() {
 		employeeId = 0;
@@ -110,10 +114,69 @@ public class Employee {
 		this.dateHired = dateHired;
 	}
 
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", middleinitial=" + middleinitial + ", email=" + email + ", phone=" + phone + ", position="
 				+ position + ", address=" + address + ", dateHired=" + dateHired + "]";
+	}
+
+	private boolean checkNulls(Employee other) {
+		if (this.getAddress() == null || other.getAddress() == null)
+			if (this.getAddress() != other.getAddress())
+				return false;
+		if (this.getDateHired() == null || other.getDateHired() == null)
+			if (this.getDateHired() != other.getDateHired())
+				return false;
+		if (this.getEmail() == null || other.getEmail() == null)
+			if (this.getEmail() != other.getEmail())
+				return false;
+		if (this.getFirstname() == null || other.getFirstname() == null)
+			if (this.getFirstname() != other.getFirstname())
+				return false;
+		if (this.getLastname() == null || other.getLastname() == null)
+			if (this.getLastname() != other.getLastname())
+				return false;
+		if (this.getMiddleinitial() == null || other.getMiddleinitial() == null)
+			if (this.getMiddleinitial() != other.getMiddleinitial())
+				return false;
+		if (this.getPhone() == null || other.getPhone() == null)
+			if (this.getPhone() != other.getPhone())
+				return false;
+		if (this.getPosition() == null || other.getPosition() == null)
+			if (this.getPosition() != other.getPosition())
+				return false;
+		if (this.getActive() == null || other.getActive() == null)
+			if (this.getActive() != other.getActive())
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Employee) {
+			Employee other = (Employee) obj;
+			if (!this.checkNulls(other))
+				return false;
+			return (this.getAddress() == null || this.getAddress().equals(other.getAddress()))
+					&& (this.getDateHired() == null || this.getDateHired().equals(other.getDateHired()))
+					&& (this.getEmail() == null || this.getEmail().equals(other.getEmail()))
+					&& (this.getFirstname() == null || this.getFirstname().equals(other.getFirstname()))
+					&& (this.getLastname() == null || this.getLastname().equals(other.getLastname()))
+					&& (this.getMiddleinitial() == null || this.getMiddleinitial().equals(other.getMiddleinitial()))
+					&& (this.getPhone() == null || this.getPhone().equals(other.getPhone()))
+					&& (this.getPosition() == null || this.getPosition().equals(other.getPosition()))
+					&& (this.getActive() == null || this.getActive() == other.getActive())
+					&& this.getEmployeeId() == other.getEmployeeId();
+		}
+		return false;
 	}
 }
